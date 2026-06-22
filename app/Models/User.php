@@ -39,18 +39,17 @@ class User extends Authenticatable implements JWTSubject
         return $this->getKey();
     }
 
-    public function getJWTCustomClaims()
-    {
-        return [
-            'https://hasura.io/jwt/claims' => [
-                'x-hasura-default-role' => 'user',
-                'x-hasura-allowed-roles' => ['user'],
-                'x-hasura-user-id' => (string)$this->id, // Mengambil ID dari user yang sedang login
-            ],
-        ];
-        $token = auth()->claims($customClaims)->login($user);
-
-    return response()->json(compact('token'));
-    }
+public function getJWTCustomClaims()
+{
+    return [
+        'https://hasura.io/jwt/claims' => [
+            'x-hasura-default-role' => $this->role,
+            'x-hasura-allowed-roles' => [$this->role],
+            'x-hasura-user-id' => (string)$this->id,
+            // Tambahkan baris ini agar Hasura tidak protes lagi:
+            'x-hasura-branch-id' => (string)$this->branch_id, 
+        ],
+    ];
+}
     
 }
