@@ -4,9 +4,10 @@ services:
 
   laravel-service:
     build:
-      context: ../holis-user-branch-service
+      context: ./holis-user-branch-service
       dockerfile: Dockerfile
     container_name: holis-laravel-app
+    working_dir: /var/www/holis-user-branch-service
     restart: always
     ports:
       - "8001:8000"
@@ -67,7 +68,7 @@ services:
   # SERVICE 3: Phyton FastAPI
   fastapi-service:
     build:
-      context: ../holis-procurement-service
+      context: ./holis-procurement-service
       dockerfile: Dockerfile
     container_name: holis-fastapi-app
     restart: always
